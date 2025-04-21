@@ -3,7 +3,8 @@ import {checkAuthToken} from '../middleware/checkAuthToken.js';
 import {
   createPurchase, 
   getPurchases,
-  cancelPurchase 
+  cancelPurchase ,
+  completePurchase
 } from '../controllers/purchaseController.js';
 
 const router = express.Router();
@@ -19,5 +20,8 @@ router.get('/', getPurchases);
 
 // Route to cancel a purchase
 router.delete('/:purchaseId', cancelPurchase);
+
+// Route to complete a purchase
+router.patch('/purchase/:id/complete' , completePurchase);
 
 export default router;

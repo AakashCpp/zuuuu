@@ -55,7 +55,6 @@ export const cancelPurchase = async (req, res) => {
       return res.status(403).json({ message: 'Unauthorized' });
     }
 
-
     purchase.status = 'cancelled';
     await purchase.save();
 
@@ -64,5 +63,23 @@ export const cancelPurchase = async (req, res) => {
     res.status(200).json({ message: 'Purchase cancelled successfully' });
   } catch (err) {
     res.status(500).json({ message: 'Error cancelling purchase', error: err.message });
+  }
+}
+
+export const completePurchase = async (req, res) => {
+  try {
+    const purchase = await Purchase.findById(req.params.purchaseId);
+    if (!purchase) return res.status(404).json({ message: 'Purchase not found' });
+
+    if (purchase.seller.toString() !== req.user.userId) {
+      return res.status(403).json({ message: 'Unauthorized' });
+    }
+
+    purchase.status = 'completed';
+    await purchase.save();
+
+    res.status(200).json({ message: 'Purchase completed successfully' });
+  } catch (err) {
+    res.status(500).json({ message: 'Error completing purchase', error: err.message });
   }
 }
