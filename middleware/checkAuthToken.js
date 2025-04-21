@@ -19,14 +19,14 @@ export const checkAuthToken = (req, res, next) => {
                     res.cookie("token", token, { httpOnly: true , secure: process.env.NODE_ENV !== "development" });
                     res.cookie("reffreshToken", reffreshToken, { httpOnly: true , secure: process.env.NODE_ENV !== "development" });
                     
-                    req.userId = reffreshDecoded.userId;
+                    req.user = { userId: reffreshDecoded.userId };
                     res.ok = true;
                     next();
                 }
                 }
             )
         }else{
-            req.userId = decoded.userId;
+            req.user = { userId: decoded.userId };
             next();
         }
     });

@@ -60,29 +60,35 @@ export const getBooksByAuthor = async (req, res) => {
 
 
 
-// POST: Create a new book listing
-export const createBook = async (req, res) => {
+  export const createBook = async (req, res) => {
+    const { subject, author, price } = req.body;
+    console.log("Request Body:", req.body);
+    console.log("User Info:", req.user.userId);
+  
     try {
-      const newBook = new Book({
-        ...req.body,
-        seller: req.user.userId, // assuming checkAuthToken adds user info to req.user
+      const newBook = new Book({ 
+        subject, 
+        author, 
+        price,
+        seller: req.user.userId,
       });
   
       const savedBook = await newBook.save();
   
-      // Optionally add book to user's listedBooks
       await User.findByIdAndUpdate(req.user.userId, {
         $push: { listedBooks: savedBook._id }
       });
   
-      res.status(201).json(response(true, "Book listed successfully", savedBook));
+      res.status(201).json(response(true, "Book created", savedBook));
     } catch (err) {
+      console.error("Error creating book:", err);
       res.status(500).json(response(false, "Failed to create book", err.message));
     }
   };
 
 // PUT: Update a book
 export const updateBook = async (req, res) => {
+    const {} = req.body; // Destructure the fields you want to update
     try {
       const book = await Book.findById(req.params.id);
   

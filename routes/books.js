@@ -21,7 +21,7 @@ router.get('/category/:category',checkAuthToken , getBooksByCategory);
 router.get('/author/:author',checkAuthToken , getBooksByAuthor);
 
 // create a new book listing
-router.post('/',checkAuthToken , createBook);
+router.post('/',checkAuthToken  , createBook);
 
 // update a book listing
 router.put('/:id',checkAuthToken , updateBook);

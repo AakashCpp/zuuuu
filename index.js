@@ -1,6 +1,7 @@
 import express from 'express';
 import AuthRouter from './routes/auth.js';
 import BooksRouter from './routes/books.js';
+import PurchaseRoute from './routes/purchase.js'
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import DB from './config/db.js';
@@ -28,6 +29,7 @@ app.use(express.json());
 
 app.use('/api/auth', AuthRouter); 
 app.use('/api/books', BooksRouter); 
+app.use('/api/purchase', PurchaseRoute); 
 
 
 app.listen(PORT, () => {
